@@ -12,24 +12,34 @@ $ go get github.com/yakuter/kawaii
 To use bbolt as an embedded key-value store, import as:
 
 ```go
-import bolt "github.com/yakuter/kawaii"
+import (
+	"log"
 
-dbPath := "./mydb"
-db, err := New(dbPath)
-if err != nil {
-    log.Fatal(err)
+	"github.com/yakuter/kawaii"
+)
+
+func main() {
+	dbPath := "./mydb"
+	db, err := kawaii.New(dbPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	testBucket := "BucketA"
+	testKey := "KeyA"
+	testValue := "ValueA"
+
+	err = db.Set(testBucket, testKey, testValue)
+	if err != nil {
+		log.Println(err)
+	}
+
+	value, err := db.Get(testBucket, testKey)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(value)
 }
-defer db.Close()
-
-err = db.Set(testBucket, testKey, testValue)
-if err != nil {
-    log.Println(err)
-}
-
-value, err := db.Get(testBucket, testKey)
-if err != nil {
-    log.Println(err)
-}
-
-log.Println(value)
 ```

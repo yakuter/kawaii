@@ -1,4 +1,4 @@
-module github.com/yakuter/defter
+module github.com/yakuter/kawaii
 
 go 1.15
 
